@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+    "prototypes/nannou-simple-white-noise-graphics",
+]
