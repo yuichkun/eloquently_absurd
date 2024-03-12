@@ -1,5 +1,8 @@
 use bevy::prelude::*;
+
+mod hello;
+use hello::*;
+
 fn main() {
-    println!("hello jialan");
-    App::new().add_plugins(DefaultPlugins).run();
+    App::new().add_plugins((DefaultPlugins, HelloPlugin)).run();
 }
