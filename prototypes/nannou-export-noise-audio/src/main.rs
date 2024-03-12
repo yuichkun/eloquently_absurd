@@ -1,4 +1,4 @@
-use std::{fs::File, io::BufWriter};
+use std::{env, fs::File, io::BufWriter};
 
 use nannou::prelude::*;
 extern crate hound;
@@ -8,7 +8,16 @@ const SAMPLE_RATE: u32 = 44100;
 const MAX_AMP: f32 = i16::MAX as f32;
 
 fn main() {
-    println!("Hello, world!");
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        eprintln!("Usage: {} <seconds>", args[0]);
+        std::process::exit(1);
+    }
+    let sec: u32 = args[1]
+        .parse()
+        .expect("Please provide a valid number for seconds");
+
+    println!("Generating noise for {} seconds...", sec);
 
     let spec = WavSpec {
         channels: 1,
@@ -17,8 +26,9 @@ fn main() {
         sample_format: hound::SampleFormat::Int,
     };
     let mut writer = WavWriter::create("../noise.wav", spec).unwrap();
-    generate_noise(&mut writer, 10);
+    generate_noise(&mut writer, sec);
     writer.finalize().unwrap();
+    println!("Done!");
 }
 
 fn generate_noise(writer: &mut WavWriter<BufWriter<File>>, sec: u32) {
@@ -28,8 +38,6 @@ fn generate_noise(writer: &mut WavWriter<BufWriter<File>>, sec: u32) {
 
         let fade_factor = 1.0 - (t / sec as f32);
         let amplitude = MAX_AMP * fade_factor;
-
-        println!("amplitude: {}", amplitude);
         write_sample(writer, sample, amplitude);
     }
 }
