@@ -9,13 +9,14 @@ const MAX_AMP: f32 = i16::MAX as f32;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        eprintln!("Usage: {} <seconds>", args[0]);
+    if args.len() < 3 {
+        eprintln!("Usage: {} <seconds> <export_path>", args[0]);
         std::process::exit(1);
     }
     let sec: u32 = args[1]
         .parse()
         .expect("Please provide a valid number for seconds");
+    let export_path = &args[2];
 
     println!("Generating noise for {} seconds...", sec);
 
@@ -25,7 +26,7 @@ fn main() {
         bits_per_sample: 16,
         sample_format: hound::SampleFormat::Int,
     };
-    let mut writer = WavWriter::create("../noise.wav", spec).unwrap();
+    let mut writer = WavWriter::create(export_path, spec).unwrap();
     generate_noise(&mut writer, sec);
     writer.finalize().unwrap();
     println!("Done!");
