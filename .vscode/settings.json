@@ -4,7 +4,9 @@
     "editor.formatOnSave": true
   },
   "cSpell.words": [
-    "wgpu",
-    "Unorm"
+    "DIMGRAY",
+    "ringbuf",
+    "Unorm",
+    "wgpu"
   ]
 }
