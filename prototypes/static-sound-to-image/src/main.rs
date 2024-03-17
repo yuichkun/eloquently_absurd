@@ -47,6 +47,7 @@ fn view(app: &App, model: &AppModel, frame: Frame) {
     }
 
     draw.to_frame(app, &frame).unwrap();
+    println!("FPS: {}", app.fps());
 }
 
 fn index_to_xy(index: usize) -> (f32, f32) {
