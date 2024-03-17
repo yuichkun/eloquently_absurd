@@ -25,7 +25,7 @@ fn model(app: &App) -> AppModel {
         .build()
         .unwrap();
 
-    let mut reader = hound::WavReader::open("out.wav").unwrap();
+    let mut reader = hound::WavReader::open("sample_internet_image.wav").unwrap();
 
     let duration = reader.duration();
     let len = reader.len();
