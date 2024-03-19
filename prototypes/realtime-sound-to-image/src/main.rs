@@ -1,7 +1,6 @@
 use std::sync::{Arc, Mutex};
 
-use audio::dasp_sample::ToSample;
-use nannou::prelude::*;
+use nannou::{prelude::*, state::keys};
 use nannou_audio as audio;
 use nannou_audio::Buffer;
 use ringbuf::{HeapRb, Rb};
@@ -11,43 +10,45 @@ use utils::DrawExt;
 
 const IMAGE_WIDTH: f32 = 720.0;
 const IMAGE_HEIGHT: f32 = 615.0;
-const TOTAL_PIXELS: u32 = IMAGE_WIDTH as u32 * IMAGE_HEIGHT as u32;
 const DOT_SIZE: f32 = 1.0;
 
+// 442,800
+const RB_SIZE: usize = IMAGE_WIDTH as usize * IMAGE_HEIGHT as usize;
 const SAMPLE_SIZE: usize = 512;
-const RB_SIZE: usize = SAMPLE_SIZE * 10;
 
 fn main() {
     nannou::app(model).update(update).run();
 }
 
 struct AppModel {
+    #[allow(unused)]
     in_stream: audio::Stream<RecorderModel>,
-    scanner_index: Arc<Mutex<usize>>,
     rb: Arc<Mutex<HeapRb<f32>>>,
-    display_index: usize,
+
+    last_drawn_display_index: Mutex<usize>,
+    how_many_pixels_to_draw_in_next_frame: usize,
 }
 
 struct RecorderModel {
     rb: Arc<Mutex<HeapRb<f32>>>,
-    scanner_index: Arc<Mutex<usize>>,
 }
 
 fn model(app: &App) -> AppModel {
     app.new_window()
         .size(IMAGE_WIDTH as u32, IMAGE_HEIGHT as u32)
         .view(view)
+        .key_pressed(key_pressed)
         .build()
         .unwrap();
 
-    let scanner_index = Arc::new(Mutex::new(0));
-    let display_index = 0;
     let rb = Arc::new(Mutex::new(HeapRb::<f32>::new(RB_SIZE)));
 
-    let recorder_model = RecorderModel {
-        rb: rb.clone(),
-        scanner_index: scanner_index.clone(),
-    };
+    // for i in 0..RB_SIZE {
+    //     let v = map_range(i as f32, 0.0, RB_SIZE as f32, -1.0, 1.0);
+    //     rb.lock().unwrap().push(v).expect("Ring buffer overflow");
+    // }
+
+    let recorder_model = RecorderModel { rb: rb.clone() };
 
     let audio_host = audio::Host::new();
     let in_stream = audio_host
@@ -63,67 +64,89 @@ fn model(app: &App) -> AppModel {
     AppModel {
         in_stream,
         rb,
-        scanner_index,
-        display_index,
+        last_drawn_display_index: Mutex::new(0),
+        how_many_pixels_to_draw_in_next_frame: 0,
     }
 }
 
 fn pass_in(model: &mut RecorderModel, buffer: &Buffer) {
-    // println!("pass in");
+    let mut rb = model.rb.lock().unwrap();
+
     for frame in buffer.frames() {
+        let capacity = rb.capacity();
+        let rb_len = rb.len();
+        if rb_len >= capacity {
+            continue;
+        }
         for sample in frame {
-            println!("sample: {}", sample);
-            model.rb.lock().unwrap().push_overwrite(*sample);
+            rb.push(*sample).expect("Ring buffer overflow");
         }
     }
-    let mut scanner_index = model.scanner_index.lock().unwrap();
-    *scanner_index = if *scanner_index + SAMPLE_SIZE < RB_SIZE {
-        *scanner_index + SAMPLE_SIZE
-    } else {
-        0
-    };
 }
 
 fn update(_app: &App, model: &mut AppModel, _update: Update) {
-    // println!("current display index: {}", model.display_index);
+    println!("====update====");
+    let rb = model.rb.lock().unwrap();
+    let rb_len = rb.len();
+    let last_drawn_display_index = model.last_drawn_display_index.lock().unwrap();
+    println!("rb_len: {}", rb_len);
+    println!("last_drawn_display_index: {}", last_drawn_display_index);
 
-    if (model.display_index as u32 + SAMPLE_SIZE as u32) > TOTAL_PIXELS {
-        model.display_index = 0;
-    } else {
-        model.display_index += SAMPLE_SIZE;
-    }
-    // println!("new display index: {}", model.display_index);
+    model.how_many_pixels_to_draw_in_next_frame = rb_len - *last_drawn_display_index;
+
+    println!(
+        "how_many_pixels_to_draw_in_next_frame: {}",
+        model.how_many_pixels_to_draw_in_next_frame
+    );
 }
 
 fn view(app: &App, model: &AppModel, frame: Frame) {
-    // println!("view");
+    println!("====view====");
     let draw = app.draw();
-    let win = app.window_rect();
     let rb = model.rb.lock().unwrap();
-    let scanner_index = model.scanner_index.lock().unwrap();
-    // println!("scanner index: {}", *scanner_index);
+    let how_many_pixels_to_draw = model.how_many_pixels_to_draw_in_next_frame;
+    let last_drawn_display_index;
+    {
+        let last_drawn_display_lock = model.last_drawn_display_index.lock().unwrap();
+        last_drawn_display_index = *last_drawn_display_lock;
+    }
 
-    let mut brightest_value = -1.0;
-    let mut darkest_value = 2.0;
-    for (i, sample) in rb.iter().enumerate().skip(*scanner_index).take(SAMPLE_SIZE) {
-        let index = model.display_index + i;
+    println!("last_drawn_display_index: {}", last_drawn_display_index);
+    println!("how_many_pixels_to_draw: {}", how_many_pixels_to_draw);
+
+    for (index, sample) in rb
+        .iter()
+        .enumerate()
+        .skip(last_drawn_display_index)
+        .take(how_many_pixels_to_draw)
+    {
         let (x, y) = index_to_xy(index);
         let mapped_color = map_range(*sample, -1.0, 1.0, 0.0, 1.0);
         let color = gray(mapped_color);
         draw.point(x, y, color);
-
-        if mapped_color > brightest_value {
-            brightest_value = mapped_color;
-        }
-        if mapped_color < darkest_value {
-            darkest_value = mapped_color;
-        }
     }
 
-    println!("brightest: {}, darkest: {}", brightest_value, darkest_value);
     draw.to_frame(app, &frame).unwrap();
 
-    // println!("FPS: {}", app.fps());
+    *model.last_drawn_display_index.lock().unwrap() =
+        last_drawn_display_index + how_many_pixels_to_draw;
+
+    println!("FPS: {}", app.fps());
+}
+
+fn key_pressed(app: &App, model: &mut AppModel, key: Key) {
+    match key {
+        Key::Space => {
+            reset_model(model);
+        }
+        _ => (),
+    }
+}
+
+fn reset_model(model: &mut AppModel) {
+    *model.last_drawn_display_index.lock().unwrap() = 0;
+    model.how_many_pixels_to_draw_in_next_frame = 0;
+    model.rb.lock().unwrap().clear();
 }
 
 fn index_to_xy(index: usize) -> (f32, f32) {
