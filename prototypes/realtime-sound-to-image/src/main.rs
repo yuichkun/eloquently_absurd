@@ -134,7 +134,7 @@ fn view(app: &App, model: &AppModel, frame: Frame) {
     println!("FPS: {}", app.fps());
 }
 
-fn key_pressed(app: &App, model: &mut AppModel, key: Key) {
+fn key_pressed(_app: &App, model: &mut AppModel, key: Key) {
     match key {
         Key::Space => {
             reset_model(model);
