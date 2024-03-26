@@ -56,16 +56,16 @@ pub fn setup_render_pipeline(params: SetupRenderPipelineParams) -> SetupRenderPi
     let vertex_buffer = device.create_buffer_init(&BufferInitDescriptor {
         label: None,
         contents: vertices_bytes,
-        usage: wgpu::BufferUsages::VERTEX,
+        usage: BufferUsages::VERTEX,
     });
     // Create the render pipeline.
     let bind_group_layout = BindGroupLayoutBuilder::new().build(device);
-    let bind_group = wgpu::BindGroupBuilder::new().build(device, &bind_group_layout);
+    let bind_group = BindGroupBuilder::new().build(device, &bind_group_layout);
     let pipeline_layout = create_pipeline_layout(device, None, &[&bind_group_layout], &[]);
     let render_pipeline = RenderPipelineBuilder::from_layout(&pipeline_layout, &vs_mod)
         .fragment_shader(&fs_mod)
         .color_format(Frame::TEXTURE_FORMAT)
-        .add_vertex_buffer::<Vertex>(&wgpu::vertex_attr_array![0 => Float32x2])
+        .add_vertex_buffer::<Vertex>(&vertex_attr_array![0 => Float32x2])
         .sample_count(sample_count)
         .build(device);
 
@@ -87,7 +87,7 @@ pub fn render_shaders(
     // The render pass can be thought of a single large command consisting of sub commands. Here we
     // begin a render pass that outputs to the frame's texture. Then we add sub-commands for
     // setting the bind group, render pipeline, vertex buffers and then finally drawing.
-    let mut render_pass = wgpu::RenderPassBuilder::new()
+    let mut render_pass = RenderPassBuilder::new()
         .color_attachment(frame.texture_view(), |color| color)
         .begin(&mut encoder);
     render_pass.set_bind_group(0, bind_group, &[]);
