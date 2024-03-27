@@ -8,6 +8,8 @@
     "msaa",
     "repr",
     "ringbuf",
+    "rngs",
+    "Seedable",
     "Unorm",
     "wgpu",
     "wgsl"

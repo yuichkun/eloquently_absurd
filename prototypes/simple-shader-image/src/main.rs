@@ -1,7 +1,4 @@
 use nannou::image;
-use nannou::image::GenericImageView;
-use nannou::noise::{MultiFractal, NoiseFn, Seedable};
-use nannou::prelude::*;
 use nannou::prelude::*;
 use nannou::rand::rngs::SmallRng;
 use nannou::rand::{Rng, SeedableRng};
