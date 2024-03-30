@@ -4,7 +4,9 @@
     "editor.formatOnSave": true
   },
   "cSpell.words": [
+    "bytemuck",
     "DIMGRAY",
+    "egui",
     "msaa",
     "repr",
     "ringbuf",
