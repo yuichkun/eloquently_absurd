@@ -17,18 +17,27 @@ var<uniform> uniforms: Uniforms;
 
 @fragment
 fn main(@location(0) tex_coords: vec2<f32>) -> FragmentOutput {
-    // Map tex_coords.x to sample index
-    let sampleIndex = u32(tex_coords.x * 1024.0);
+    // Calculate the exact position in the samples array
+    let exactSampleIndex = tex_coords.x * 1024.0;
+    // Determine the indices of the two samples to interpolate between
+    let sampleIndex1 = u32(exactSampleIndex);
+    let sampleIndex2 = min(sampleIndex1 + 1u, 1023u); // Ensure we don't go out of bounds
 
-    // Get the sample value
-    let sample = audioData.samples[sampleIndex];
+    // Get the two sample values
+    let sample1 = audioData.samples[sampleIndex1];
+    let sample2 = audioData.samples[sampleIndex2];
 
-    // Map the sample value (-1.0 to 1.0) to a vertical position
-    let verticalPosition = (sample + 1.0) / 2.0; // Now 0.0 to 1.0
+    // Calculate the interpolation factor (how far we are between the two samples)
+    let t = fract(exactSampleIndex);
 
-     // Determine if the current fragment is close to the vertical position
+    // Linearly interpolate between the two sample values
+    let interpolatedSample = mix(sample1, sample2, t);
+
+    // Map the interpolated sample value (-1.0 to 1.0) to a vertical position
+    let verticalPosition = (interpolatedSample + 1.0) / 2.0; // Now 0.0 to 1.0
+
+    // Determine if the current fragment is close to the vertical position
     let isCloseToSample = abs(tex_coords.y - verticalPosition) < uniforms.resolution; // Adjust the threshold as needed
-
 
     // Initialize color as black
     var color: vec3<f32> = vec3<f32>(0.0, 0.0, 0.0);
@@ -39,5 +48,4 @@ fn main(@location(0) tex_coords: vec2<f32>) -> FragmentOutput {
     }
 
     return FragmentOutput(vec4<f32>(color, 1.0));
-
 }

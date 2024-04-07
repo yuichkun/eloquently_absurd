@@ -72,7 +72,9 @@ fn model(app: &App) -> Model {
 
     let sample_count = window.msaa_samples();
 
-    let settings = Settings { resolution: 0.1 };
+    let settings = Settings {
+        resolution: 0.00046,
+    };
 
     let uniforms = Uniforms {
         time: 0.0,
@@ -150,7 +152,7 @@ fn update(app: &App, model: &mut Model, _update: Update) {
         // Resolution slider
         ui.label("Resolution:");
         if ui
-            .add(egui::Slider::new(&mut settings.resolution, 0.0001..=0.001))
+            .add(egui::Slider::new(&mut settings.resolution, 0.0001..=0.0005))
             .changed()
         {
             // Update the uniform value when the slider changes
