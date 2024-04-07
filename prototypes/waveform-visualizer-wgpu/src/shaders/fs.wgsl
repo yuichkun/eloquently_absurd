@@ -1,11 +1,11 @@
 struct Uniforms {
     time: f32,
     resolution: f32,
+    amp: f32, // Added amp parameter
 };
 struct AudioData {
     samples: array<f32, 1024>,
 };
-
 
 struct FragmentOutput {
     @location(0) f_color: vec4<f32>,
@@ -33,8 +33,11 @@ fn main(@location(0) tex_coords: vec2<f32>) -> FragmentOutput {
     // Linearly interpolate between the two sample values
     let interpolatedSample = mix(sample1, sample2, t);
 
-    // Map the interpolated sample value (-1.0 to 1.0) to a vertical position
-    let verticalPosition = (interpolatedSample + 1.0) / 2.0; // Now 0.0 to 1.0
+    // Apply the amp parameter to the interpolated sample
+    let ampedSample = interpolatedSample * uniforms.amp;
+
+    // Map the amped sample value (-1.0 to 1.0) to a vertical position
+    let verticalPosition = (ampedSample + 1.0) / 2.0; // Now 0.0 to 1.0
 
     // Determine if the current fragment is close to the vertical position
     let isCloseToSample = abs(tex_coords.y - verticalPosition) < uniforms.resolution; // Adjust the threshold as needed

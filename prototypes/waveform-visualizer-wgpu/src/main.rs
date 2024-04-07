@@ -13,6 +13,7 @@ const RB_SIZE: usize = 1024;
 
 struct Settings {
     resolution: f32,
+    amp: f32,
 }
 
 struct Model {
@@ -38,6 +39,7 @@ struct RecorderModel {
 pub struct Uniforms {
     time: f32,
     resolution: f32,
+    amp: f32,
 }
 
 fn main() {
@@ -74,11 +76,13 @@ fn model(app: &App) -> Model {
 
     let settings = Settings {
         resolution: 0.00046,
+        amp: 1.0,
     };
 
     let uniforms = Uniforms {
         time: 0.0,
         resolution: settings.resolution,
+        amp: settings.amp,
     };
 
     let SetupRenderPipelineOutput {
@@ -157,6 +161,14 @@ fn update(app: &App, model: &mut Model, _update: Update) {
         {
             // Update the uniform value when the slider changes
             model.uniforms.resolution = settings.resolution;
+        }
+
+        if ui
+            .add(egui::Slider::new(&mut settings.amp, 1.0..=10.0))
+            .changed()
+        {
+            // Update the uniform value when the slider changes
+            model.uniforms.amp = settings.amp;
         }
     });
 }
