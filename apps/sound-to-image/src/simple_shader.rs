@@ -3,7 +3,8 @@ use nannou::prelude::*;
 use nannou::wgpu::{self};
 use wgpu::*;
 
-use super::RB_SIZE;
+use super::{recorder, AppAudioBuffer};
+use recorder::RB_SIZE;
 
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -109,18 +110,10 @@ pub fn setup_render_pipeline(params: SetupRenderPipelineParams) -> SetupRenderPi
     }
 }
 
-pub fn render_shaders(
-    model: &Model,
-    bind_group: &BindGroup,
-    render_pipeline: &RenderPipeline,
-    vertex_buffer: &Buffer,
-    frame: &Frame,
-    device: &Device,
-    uniforms: &Uniforms,
-) {
+pub fn render_shaders(model: &Model, frame: &Frame, device: &Device) {
     // Update the uniforms (rotate around the teapot).
     let uniforms_size = std::mem::size_of::<Uniforms>() as wgpu::BufferAddress;
-    let uniforms_bytes = uniforms_as_bytes(&uniforms);
+    let uniforms_bytes = uniforms_as_bytes(&model.shader_settings.uniforms);
     let usage = wgpu::BufferUsages::COPY_SRC;
     let new_uniform_buffer = device.create_buffer_init(&BufferInitDescriptor {
         label: None,
@@ -143,9 +136,9 @@ pub fn render_shaders(
     let mut render_pass = RenderPassBuilder::new()
         .color_attachment(frame.texture_view(), |color| color)
         .begin(&mut encoder);
-    render_pass.set_bind_group(0, bind_group, &[]);
-    render_pass.set_pipeline(render_pipeline);
-    render_pass.set_vertex_buffer(0, vertex_buffer.slice(..));
+    render_pass.set_bind_group(0, &model.shader_settings.bind_group, &[]);
+    render_pass.set_pipeline(&model.shader_settings.render_pipeline);
+    render_pass.set_vertex_buffer(0, model.shader_settings.vertex_buffer.slice(..));
 
     // We want to draw the whole range of vertices, and we're only drawing one instance of them.
     let vertex_range = 0..VERTICES.len() as u32;
@@ -160,4 +153,51 @@ fn vertices_as_bytes(data: &[Vertex]) -> &[u8] {
 
 fn uniforms_as_bytes(uniforms: &Uniforms) -> &[u8] {
     unsafe { wgpu::bytes::from(uniforms) }
+}
+
+pub fn update(app: &App, model: &mut Model) {
+    model.shader_settings.uniforms.time = app.time;
+
+    // Create a command encoder
+    let mut encoder =
+        app.main_window()
+            .device()
+            .create_command_encoder(&wgpu::CommandEncoderDescriptor {
+                label: Some("Audio Storage Buffer Update Encoder"),
+            });
+
+    // Update the audio storage buffer with the latest samples from the ring buffer
+    update_audio_storage_buffer(
+        app.main_window().device(),
+        &mut encoder,
+        &model.shader_settings.audio_storage_buffer,
+        &model.rb,
+    );
+
+    // Submit the commands to the GPU
+    app.main_window()
+        .queue()
+        .submit(std::iter::once(encoder.finish()));
+}
+fn update_audio_storage_buffer(
+    device: &Device,
+    encoder: &mut CommandEncoder,
+    audio_storage_buffer: &Buffer,
+    rb: &AppAudioBuffer,
+) {
+    // Lock the ring buffer and collect the samples into a Vec
+    let samples: Vec<f32> = recorder::collect_samples(rb);
+
+    // Create a temporary buffer with the new audio samples
+    let temp_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+        label: Some("Temp Audio Buffer"),
+        contents: bytemuck::cast_slice(&samples),
+        usage: wgpu::BufferUsages::COPY_SRC,
+    });
+
+    // Calculate the size of the data to copy
+    let data_size = (samples.len() * std::mem::size_of::<f32>()) as BufferAddress;
+
+    // Copy the data from the temporary buffer to the audio_storage_buffer
+    encoder.copy_buffer_to_buffer(&temp_buffer, 0, audio_storage_buffer, 0, data_size);
 }

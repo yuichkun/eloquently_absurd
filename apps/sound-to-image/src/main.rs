@@ -1,4 +1,3 @@
-use bytemuck;
 use nannou::prelude::*;
 use wgpu::*;
 
@@ -9,10 +8,13 @@ mod helpers;
 use helpers::*;
 
 mod recorder;
-use recorder::{AppAudioBuffer, RecorderInStream, RB_SIZE};
+use recorder::{AppAudioBuffer, RecorderInStream};
 
 mod ui;
 use ui::AppUi;
+
+pub const WIDTH: usize = 500;
+pub const HEIGHT: usize = 500;
 
 struct Model {
     #[allow(unused)]
@@ -37,7 +39,7 @@ fn main() {
 
 fn model(app: &App) -> Model {
     app.new_window()
-        .size(RB_SIZE as u32, RB_SIZE as u32)
+        .size(WIDTH as u32, HEIGHT as u32)
         .view(view)
         .raw_event(raw_window_event)
         .build()
@@ -77,27 +79,7 @@ fn model(app: &App) -> Model {
 }
 
 fn update(app: &App, model: &mut Model, _update: Update) {
-    model.shader_settings.uniforms.time = app.time;
-    // Create a command encoder
-    let mut encoder =
-        app.main_window()
-            .device()
-            .create_command_encoder(&wgpu::CommandEncoderDescriptor {
-                label: Some("Audio Storage Buffer Update Encoder"),
-            });
-
-    // Update the audio storage buffer with the latest samples from the ring buffer
-    update_audio_storage_buffer(
-        app.main_window().device(),
-        &mut encoder,
-        &model.shader_settings.audio_storage_buffer,
-        &model.rb,
-    );
-
-    // Submit the commands to the GPU
-    app.main_window()
-        .queue()
-        .submit(std::iter::once(encoder.finish()));
+    simple_shader::update(app, model);
 
     // TODO: fix update ui
     ui::update_settings_ui(&mut model.ui);
@@ -105,44 +87,12 @@ fn update(app: &App, model: &mut Model, _update: Update) {
 
 fn view(app: &App, model: &Model, frame: Frame) {
     frame.clear(BLACK);
-    render_shaders(
-        model,
-        &model.shader_settings.bind_group,
-        &model.shader_settings.render_pipeline,
-        &model.shader_settings.vertex_buffer,
-        &frame,
-        app.main_window().device(),
-        &model.shader_settings.uniforms,
-    );
+    render_shaders(model, &frame, app.main_window().device());
 
-    model.ui.egui.draw_to_frame(&frame).unwrap();
+    ui::show(model, &frame);
     app.show_fps(&frame);
 }
 
 fn raw_window_event(_app: &App, model: &mut Model, event: &nannou::winit::event::WindowEvent) {
-    // Let egui handle things like keyboard and mouse input.
-    model.ui.egui.handle_raw_event(event);
-}
-
-fn update_audio_storage_buffer(
-    device: &Device,
-    encoder: &mut CommandEncoder,
-    audio_storage_buffer: &Buffer,
-    rb: &AppAudioBuffer,
-) {
-    // Lock the ring buffer and collect the samples into a Vec
-    let samples: Vec<f32> = recorder::collect_samples(rb);
-
-    // Create a temporary buffer with the new audio samples
-    let temp_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
-        label: Some("Temp Audio Buffer"),
-        contents: bytemuck::cast_slice(&samples),
-        usage: wgpu::BufferUsages::COPY_SRC,
-    });
-
-    // Calculate the size of the data to copy
-    let data_size = (samples.len() * std::mem::size_of::<f32>()) as BufferAddress;
-
-    // Copy the data from the temporary buffer to the audio_storage_buffer
-    encoder.copy_buffer_to_buffer(&temp_buffer, 0, audio_storage_buffer, 0, data_size);
+    ui::raw_event(_app, model, event);
 }

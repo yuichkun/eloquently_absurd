@@ -1,4 +1,7 @@
+use super::Model;
+use nannou::prelude::*;
 use nannou_egui::{self, egui, Egui};
+
 pub struct AppUi {
     pub egui: Egui,
     pub settings: Settings,
@@ -36,10 +39,19 @@ pub fn update_settings_ui(app_ui: &mut AppUi) {
     });
 }
 
+pub fn show(model: &Model, frame: &Frame) {
+    model.ui.egui.draw_to_frame(frame).unwrap();
+}
+
 fn create_initial_settings() -> Settings {
     let settings = Settings {
         resolution: 0.00046,
         amp: 1.0,
     };
     settings
+}
+
+pub fn raw_event(_app: &App, model: &mut Model, event: &nannou::winit::event::WindowEvent) {
+    // Let egui handle things like keyboard and mouse input.
+    model.ui.egui.handle_raw_event(event);
 }

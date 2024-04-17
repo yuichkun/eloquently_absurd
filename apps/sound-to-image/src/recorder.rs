@@ -1,8 +1,9 @@
+use super::{HEIGHT, WIDTH};
 use nannou_audio as audio;
 use ringbuf::{Rb, StaticRb};
 use std::sync::{Arc, Mutex};
 
-pub const RB_SIZE: usize = 1024;
+pub const RB_SIZE: usize = WIDTH * HEIGHT;
 
 pub type AppAudioBuffer = Arc<Mutex<StaticRb<f32, RB_SIZE>>>;
 
@@ -25,8 +26,6 @@ pub fn create() -> (AppAudioBuffer, RecorderInStream) {
     in_stream.play().unwrap();
     return (rb, in_stream);
 }
-
-pub fn update() {}
 
 fn pass_in(model: &mut RecorderModel, buffer: &nannou_audio::Buffer) {
     for frame in buffer.frames() {
