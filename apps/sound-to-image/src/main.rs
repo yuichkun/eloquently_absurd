@@ -1,5 +1,6 @@
 use nannou::prelude::*;
 use wgpu::*;
+mod fft;
 
 mod simple_shader;
 use simple_shader::*;
@@ -89,7 +90,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
     frame.clear(BLACK);
     render_shaders(model, &frame, app.main_window().device());
 
-    ui::show(model, &frame);
+    // ui::show(model, &frame);
     app.show_fps(&frame);
 }
 

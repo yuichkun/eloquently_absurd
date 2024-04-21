@@ -1,3 +1,5 @@
+use crate::fft;
+
 use super::{HEIGHT, WIDTH};
 use nannou_audio as audio;
 use ringbuf::{Rb, StaticRb};
@@ -35,12 +37,25 @@ fn pass_in(model: &mut RecorderModel, buffer: &nannou_audio::Buffer) {
             model.rb.lock().unwrap().clear();
         }
     }
-
     buffer.frames().for_each(|frame| {
         let ch1 = frame.get(0).unwrap();
         model.rb.lock().unwrap().push_overwrite(*ch1);
     });
+
+    let samples = collect_samples(&model.rb);
+
+    let sample_count = 512;
+    let samples_to_consider = if samples.len() > sample_count {
+        &samples[(samples.len() - sample_count)..]
+    } else {
+        &samples[..]
+    };
+    if fft::detect_start_signal(samples_to_consider.to_vec()) {
+        println!("Start signal detected");
+        model.rb.lock().unwrap().clear();
+    }
 }
+
 pub fn collect_samples(rb: &AppAudioBuffer) -> Vec<f32> {
     let rb = rb.lock().unwrap();
     rb.iter().copied().collect()

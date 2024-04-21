@@ -11,6 +11,7 @@
     "repr",
     "ringbuf",
     "rngs",
+    "rustfft",
     "Seedable",
     "Unorm",
     "wgpu",
