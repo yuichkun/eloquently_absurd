@@ -40,7 +40,7 @@ fn main() {
 
 fn model(app: &App) -> Model {
     app.new_window()
-        .size(WIDTH as u32, HEIGHT as u32)
+        .fullscreen()
         .view(view)
         .raw_event(raw_window_event)
         .build()
