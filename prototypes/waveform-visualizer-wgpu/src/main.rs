@@ -116,11 +116,11 @@ fn model(app: &App) -> Model {
 }
 
 fn pass_in(model: &mut RecorderModel, buffer: &nannou_audio::Buffer) {
-    for frame in buffer.frames() {
-        for sample in frame {
-            model.rb.lock().unwrap().push_overwrite(*sample);
-        }
-    }
+    buffer.frames().for_each(|frame| {
+        let ch1 = frame.get(0).unwrap();
+        println!("ch1: {}", ch1);
+        model.rb.lock().unwrap().push_overwrite(*ch1);
+    });
 }
 
 fn update(app: &App, model: &mut Model, _update: Update) {

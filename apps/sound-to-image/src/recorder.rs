@@ -28,11 +28,18 @@ pub fn create() -> (AppAudioBuffer, RecorderInStream) {
 }
 
 fn pass_in(model: &mut RecorderModel, buffer: &nannou_audio::Buffer) {
-    for frame in buffer.frames() {
-        for sample in frame {
-            model.rb.lock().unwrap().push_overwrite(*sample);
+    // if rb is full, empty it first
+    {
+        if model.rb.lock().unwrap().len() == RB_SIZE {
+            println!("rb full, emptying");
+            model.rb.lock().unwrap().clear();
         }
     }
+
+    buffer.frames().for_each(|frame| {
+        let ch1 = frame.get(0).unwrap();
+        model.rb.lock().unwrap().push_overwrite(*ch1);
+    });
 }
 pub fn collect_samples(rb: &AppAudioBuffer) -> Vec<f32> {
     let rb = rb.lock().unwrap();

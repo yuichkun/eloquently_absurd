@@ -46,11 +46,10 @@ fn model(app: &App) -> AppModel {
 }
 
 fn pass_in(model: &mut RecorderModel, buffer: &Buffer) {
-    for frame in buffer.frames() {
-        for sample in frame {
-            model.rb.lock().unwrap().push_overwrite(*sample);
-        }
-    }
+    buffer.frames().for_each(|frame| {
+        let ch1 = frame.get(0).unwrap();
+        model.rb.lock().unwrap().push_overwrite(*ch1);
+    });
 }
 
 fn view(app: &App, model: &AppModel, frame: Frame) {
