@@ -16,13 +16,12 @@ pub fn detect_start_signal(samples: Vec<f32>) -> bool {
     fft.process(&mut buffer);
     // return buffer;
 
-    let target_frequencies = [(200.0, 100.0), (16000.0, 100.0)];
+    let target_frequencies = [(200.0, 70.0), (16000.0, 15.0)];
     let sample_rate = 44100; // Your audio sample rate
 
     for &(freq, thresh) in &target_frequencies {
         let bin = (freq / sample_rate as f32) * sample_len as f32;
         let amplitude = buffer[bin as usize].norm(); // Simplified, consider using a range around `bin`
-                                                     // println!("Frequency: {} Hz, Amplitude: {}", freq, amplitude);
         if amplitude < thresh {
             return false; // If any amplitude is below its threshold, return false
         }
