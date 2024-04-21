@@ -1,6 +1,8 @@
+use super::Model;
+use ringbuf::Rb;
 use rustfft::{num_complex::Complex, FftPlanner};
 
-pub fn detect_start_signal(samples: Vec<f32>) -> bool {
+fn detect_start_signal(samples: Vec<f32>) -> bool {
     let sample_len = samples.len();
     // Create an FFT planner
     let mut planner = FftPlanner::<f32>::new();
@@ -14,9 +16,8 @@ pub fn detect_start_signal(samples: Vec<f32>) -> bool {
 
     // Perform the FFT
     fft.process(&mut buffer);
-    // return buffer;
 
-    let target_frequencies = [(200.0, 70.0), (16000.0, 15.0)];
+    let target_frequencies = [(200.0, 10.0), (16000.0, 15.0)];
     let sample_rate = 44100; // Your audio sample rate
 
     for &(freq, thresh) in &target_frequencies {
@@ -28,4 +29,19 @@ pub fn detect_start_signal(samples: Vec<f32>) -> bool {
     }
 
     true
+}
+
+pub fn update(model: &mut Model) {
+    let mut rb = model.rb.lock().unwrap();
+    let samples: Vec<f32> = rb.iter().copied().collect();
+    let sample_count = 512;
+    let samples_to_consider = if samples.len() > sample_count {
+        &samples[(samples.len() - sample_count)..]
+    } else {
+        &samples[..]
+    };
+    if detect_start_signal(samples_to_consider.to_vec()) {
+        println!("Start signal detected");
+        rb.clear();
+    }
 }

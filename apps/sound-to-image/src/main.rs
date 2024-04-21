@@ -80,6 +80,7 @@ fn model(app: &App) -> Model {
 }
 
 fn update(app: &App, model: &mut Model, _update: Update) {
+    fft::update(model);
     simple_shader::update(app, model);
 
     // TODO: fix update ui
