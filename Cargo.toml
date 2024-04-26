@@ -4,3 +4,8 @@ members = [
     "apps/*",
     "prototypes/*",
 ]
+
+exclude = [
+    "apps/syncronizer",
+    "prototypes/playback-position-detector",
+]
