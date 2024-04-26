@@ -3,6 +3,10 @@ use ringbuf::Rb;
 use rustfft::{num_complex::Complex, FftPlanner};
 
 fn detect_start_signal(samples: Vec<f32>) -> bool {
+    if samples.is_empty() {
+        println!("No samples to analyze");
+        return false;
+    }
     let sample_len = samples.len();
     // Create an FFT planner
     let mut planner = FftPlanner::<f32>::new();
