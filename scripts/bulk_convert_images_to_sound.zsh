@@ -24,7 +24,7 @@ if [[ ! -d "$sounds_directory" ]]; then
 fi
 
 # Loop through all image files in the given directory
-for image_path in "$image_directory"/*.{jpg,jpeg,png,gif}; do
+for image_path in "$image_directory"/*.{jpg,jpeg,png,gif,JPG}; do
     # Check if the file exists to avoid processing invalid entries
     if [[ ! -e "$image_path" ]]; then
         continue
