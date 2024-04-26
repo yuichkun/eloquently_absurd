@@ -4,19 +4,26 @@
     "editor.formatOnSave": true
   },
   "cSpell.words": [
+    "argmax",
     "bytemuck",
     "DIMGRAY",
     "egui",
+    "figsize",
     "fullscreen",
+    "indata",
+    "librosa",
     "msaa",
     "repr",
     "ringbuf",
     "rngs",
     "rustfft",
     "Seedable",
+    "sounddevice",
     "Unorm",
     "wgpu",
     "wgsl",
-    "winit"
+    "winit",
+    "xlabel",
+    "ylabel"
   ]
 }

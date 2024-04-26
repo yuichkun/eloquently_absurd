@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "playback-position-detector"
+version = "0.1.0"
+description = ""
+authors = ["yuichkun <yuichkun@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.4"
+scipy = "^1.13.0"
+librosa = "^0.10.1"
+sounddevice = "^0.4.6"
+matplotlib = "^3.8.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
