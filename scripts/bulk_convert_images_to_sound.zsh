@@ -41,8 +41,8 @@ for image_path in "$image_directory"/*.{jpg,jpeg,png,gif,JPG}; do
 
     echo "Resizing $filename to 500px width..."
 
-    # Resize the image to 500px width while maintaining aspect ratio
-    convert "$image_path" -resize 500x "$resized_image_path"
+    # Resize the image to 500x500 pixels, cropping as necessary to maintain aspect ratio
+    convert "$image_path" -resize 500x500^ -gravity center -crop 500x500+0+0 +repage "$resized_image_path"
 
     echo "Resized image saved as $resized_image_path"
 
