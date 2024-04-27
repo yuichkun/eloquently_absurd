@@ -57,11 +57,13 @@ fn model(app: &App) -> Model {
     let sample_count = window.msaa_samples();
 
     let ui = ui::create_ui(&window);
+    let scale_factor = app.main_window().scale_factor() as f32;
     let window_rect = app.main_window().rect();
     let uniforms = Uniforms {
         time: 0.0,
-        window_width: window_rect.w(),  // Set window width
-        window_height: window_rect.h(), //
+        // Adjust for DPI scaling
+        window_width: window_rect.w() * scale_factor,
+        window_height: window_rect.h() * scale_factor,
     };
 
     let shader_settings = setup_render_pipeline(SetupRenderPipelineParams {
@@ -89,7 +91,7 @@ fn update(app: &App, model: &mut Model, _update: Update) {
 }
 
 fn view(app: &App, model: &Model, frame: Frame) {
-    frame.clear(BLACK);
+    frame.clear(BLUE);
     render_shaders(model, &frame, app.main_window().device());
 
     // ui::show(model, &frame);
