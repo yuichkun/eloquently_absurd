@@ -30,8 +30,8 @@ struct Model {
 #[derive(Copy, Clone, Debug)]
 pub struct Uniforms {
     time: f32,
-    resolution: f32,
-    amp: f32,
+    window_width: f32,
+    window_height: f32, // New fields for window dimensions
 }
 
 fn main() {
@@ -57,10 +57,11 @@ fn model(app: &App) -> Model {
     let sample_count = window.msaa_samples();
 
     let ui = ui::create_ui(&window);
+    let window_rect = app.main_window().rect();
     let uniforms = Uniforms {
         time: 0.0,
-        resolution: ui.settings.resolution,
-        amp: ui.settings.amp,
+        window_width: window_rect.w(),  // Set window width
+        window_height: window_rect.h(), //
     };
 
     let shader_settings = setup_render_pipeline(SetupRenderPipelineParams {

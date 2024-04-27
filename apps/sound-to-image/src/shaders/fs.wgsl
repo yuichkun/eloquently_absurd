@@ -1,7 +1,7 @@
 struct Uniforms {
     time: f32,
-    resolution: f32,
-    amp: f32, // Added amp parameter
+    window_width: f32,
+    window_height: f32, // New fields
 };
 struct AudioData {
     samples: array<f32, 250000>,
