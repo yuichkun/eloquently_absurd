@@ -9,6 +9,11 @@ def load_audio(file_path):
     audio, sr = librosa.load(file_path, sr=None)
     return audio, sr
 
+def format_time(seconds):
+    minutes = int(seconds // 60)
+    seconds = seconds % 60
+    return f"{minutes:02d}:{seconds:06.3f}"
+
 
 def audio_callback(indata, frames, time, status):
     # This function is called for each audio block.
@@ -27,7 +32,7 @@ def audio_callback(indata, frames, time, status):
     current_playback_position = lag / sample_rate
 
     # Optionally, you can do something with the current playback position here
-    print(f"Current playback position: {current_playback_position} seconds")
+    print(f"Current playback position: {format_time(current_playback_position)}")
 
 
 def start_stream(sr, device=None, channels=1):
