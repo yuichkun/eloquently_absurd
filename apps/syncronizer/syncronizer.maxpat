@@ -40,6 +40,53 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-41",
+					"maxclass" : "ezdac~",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1795.402268886566162, 817.241365671157837, 45.0, 45.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-2",
+					"lastchannelcount" : 0,
+					"maxclass" : "live.gain~",
+					"numinlets" : 2,
+					"numoutlets" : 5,
+					"outlettype" : [ "signal", "signal", "", "float", "list" ],
+					"parameter_enable" : 1,
+					"patching_rect" : [ 1973.875112533569336, 808.047473182678232, 48.0, 136.0 ],
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_longname" : "live.gain~[2]",
+							"parameter_mmax" : 6.0,
+							"parameter_mmin" : -70.0,
+							"parameter_shortname" : "live.gain~[2]",
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 4
+						}
+
+					}
+,
+					"varname" : "live.gain~[2]"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "ezadc~",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "signal", "signal" ],
+					"patching_rect" : [ 1973.875112533569336, 737.0, 45.0, 45.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-95",
 					"maxclass" : "number",
 					"numinlets" : 1,
@@ -86,7 +133,7 @@
 					"numoutlets" : 8,
 					"offset" : [ 0.0, 0.0 ],
 					"outlettype" : [ "signal", "signal", "", "list", "int", "", "", "" ],
-					"patching_rect" : [ 1686.0, 824.0, 92.5, 22.0 ],
+					"patching_rect" : [ 1803.241377353668213, 723.0, 92.5, 22.0 ],
 					"save" : [ "#N", "vst~", "loaduniqueid", 0, ";" ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
@@ -113,14 +160,14 @@
 						"subtype" : "Undefined",
 						"embed" : 1,
 						"snapshot" : 						{
-							"pluginname" : "RX 10 Repair Assistant.vst3",
-							"plugindisplayname" : "RX 10 Repair Assistant",
-							"pluginsavedname" : "/Library/Audio/Plug-Ins/VST3/RX 10 Repair Assistant.vst3",
+							"pluginname" : "RX 10 De-crackle.vst3",
+							"plugindisplayname" : "RX 10 De-crackle",
+							"pluginsavedname" : "/Library/Audio/Plug-Ins/VST3/RX 10 De-crackle.vst3",
 							"pluginsaveduniqueid" : 0,
 							"version" : 1,
 							"isbank" : 0,
 							"isbase64" : 1,
-							"blob" : "1689.VMjLg.oA...OVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9DSL3LiKtrFRMEDQt3hKtXmZD4hKtf0PU4hKlcTayk1X5M0aMIkKhI1MxPScnwDMzPVdHYELwEiLtDDUvg2XNIDZVUVXmImPzTiTVUCapECdyLyJ1.CQlEGVHQ0PPgmd2X2UrclKxYCd4PyU3QWVCoVavgUVYkUYrEyRPkSZtDGcAglKuMGLGMGYJA2LtoUMMElVhETLMI1QFMCb3PDaYEScgk0Z3TDb1cEL23lPOc0aGgDUVISLNEUQ0UUc3DVM4UTUiMmRhoVbxTjTxDUZCI0bEUGZtslTKIjT5YSRM4TMtMjTVsRdwgSSVMCYsE2T1MiXngyLvE2cVk0PkoEL2fUYyYGRrMSc0cDVWMmLwIGdwk2axEld3TiXYgFTTshdTkTaHgiPwXCR0ECVRMGTGcENMg2YZkVZ5cSLooTX5MSSqYkdlUjMHY0JogEd0E2X0IzbgY1cvDFUvYVRYMkbqnVNxfENuw1R0v1LuUjU3rlQqbULGkmV0P2bycUM4M0TrMGLNUTVQokTuMCLJszZ4wFcQ4TUynEbzXiM0bDR2fmcIgmM3f0U3j0TEkyaLUDSiQWMZMmRSczUBwzY3MmXlA2Y2vzZ1XWcTEFZNIVd1PSRCoGaWEURYglUkAibxsVaRISPtMSS4rRbsokUzcDbGUjRqLlRUM0RYczZrYDNxI2XLAmLXkldkImUzvTYJQ1PxbTYLsRarU2T4g2JUoWMHYjV5UDLuYVXkEiV0XyRMUjdhE2XgYFSNEUTgozT4QGZCU0RocSbmIUcmkkSTkUYlYico8DVGcjMRwTaOsRZw7VXkYGcHIlTuokRvrDMznza1MSRioTRAUiQzHiZrETdGcGbKciXNgzJGEiSYU2PUACdX4lSxwjQvIyUjITUYUSaIwzSQICRiITZqjjdEAiPTUFVsMjU5EiT5UTVrcjajIzUvTkT0EUX4TmMswjUYsBTvn0J2shLLMEYZcUYYc1SDY0XGQWMWIFdL8jXqAyJkUDTwQmRxbUNqDmUEYGbusBLk0VaAImKVkUSkMDVAImRgkiQ1IDVEIyMMY1QUEyPyb2Zw4hUvkCNnszPUM0S24xZxwVZXokY1HCd2zDYwgTctoUTkklKSQlM2ESLyfSZtjlcvkibtjULGoTQ4f2TNoTXuEldIgCLkkSNOUDS2nWcxPmU1PWZkY2UWsTMmkCcKQGS4zzUwTiM4YTQ3vVdFYyMmQCLMkCdVMkUVESaGQma3HiLXkkMksBZ0nEb0Elc3gmQ0IGNCYibxgySNUmSLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QTdqHGarEDbGYzSyHFLWUCYjEWVCQWcSM2aGkyaVMDahoELG4jXT0jMJY0a3LCMxrFYzDyUKwDZIYENqYTYWMWayAyQyQlR3XjQvDCY4wlRooEZ3L2b3Hjbx.0SFAic4HTUXI1ROg0RSM0Ui4VVtIWZwDUNG8jR3nGY3wVYyECQiMyRtjESLMGUZEUTrwVM4wlR2fSdZoEbwACbLUDatLkahMDMIsFZWEmbWckcJUlVzDVZkMVNzw1XGc2Ju0zaMUVXCMzaqnzZUc0bWIFNwDGYugWdUkSRVQSNUUiK77RRC8Vav8lak4Fc9vSREQVZzMzatQmbuwFakImOv3BOujTQjkFcC8lazI2arwVYx4COuX0TTMCTrU2Yo41TzEFck4C."
+							"blob" : "586.VMjLgDj....OVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9LSM23RdMACTtvjKt3hKPYUPt3hKnclKt3hYG0FLVkETO0DRLQkX2XyMu41as0zR1g0Y2cyLhA2cCoEanQmMUImSwEmdzQUMnIkUyXCcPMFQGAUVwgjKW4RNqn0JqjCLRU1SwDVPt3xLUIFaDsxbDQDRQIESDIVRXUFchQlZsMULvQjYKgzYRITamQTR1sjRBQmPQISUZMCMnsTTBQEUhUDL4kUUMMzTqrDT2kFb17FbY4xUDImbWYVSxzVbuMCRLMULYo1RuEGSGcjRPcVXtUyPgw1Js0zRUk2ZtbyLNQzZHMkS241RqUyUzkVRvvldv8VLQsBVREFVzcTZ5M0LXgWXYgUVJMUdzHFbQwDNNglQosxJhUjbAsxZuwzXCsVZLEVZZcCRGYyMKcUYskDY4wlSwjWbCQjREgULZQyQ37zZ4j1MUQUMLkGYvYCQk8zUxXkTzbVMFY2Pt41TiombDQVVKcjPgMWT2LFUzL0RAMELAIjbBsDZ4oza0fCdlwVLroGRWMUbNgmcg81MWEFc141Q1.ES5UFcNIGTZQiLvUVaEgEY3YEUxwlS1UycZAUXOwjbsQlb1f2aGEmQjMkLkgTcGgSRW4VXYomK5UUM4c0LBcFLIckbRMWNAYmL0QlR2wyKIMzasA2atUlaz4COIUDYoQ2Pu4Fcx8FarUlb9.iK77RREQVZzMzatQmbuwFakImO77hUSQ0LPwVcmklaSQWXzUlO.."
 						}
 ,
 						"snapshotlist" : 						{
@@ -129,28 +176,28 @@
 									"filetype" : "C74Snapshot",
 									"version" : 2,
 									"minorversion" : 0,
-									"name" : "RX 10 Repair Assistant",
-									"origin" : "RX 10 Repair Assistant.vst3",
+									"name" : "RX 10 De-crackle",
+									"origin" : "RX 10 De-crackle.vst3",
 									"type" : "VST3",
 									"subtype" : "AudioEffect",
-									"embed" : 0,
+									"embed" : 1,
 									"snapshot" : 									{
-										"pluginname" : "RX 10 Repair Assistant.vst3",
-										"plugindisplayname" : "RX 10 Repair Assistant",
-										"pluginsavedname" : "/Library/Audio/Plug-Ins/VST3/RX 10 Repair Assistant.vst3",
+										"pluginname" : "RX 10 De-crackle.vst3",
+										"plugindisplayname" : "RX 10 De-crackle",
+										"pluginsavedname" : "/Library/Audio/Plug-Ins/VST3/RX 10 De-crackle.vst3",
 										"pluginsaveduniqueid" : 0,
 										"version" : 1,
 										"isbank" : 0,
 										"isbase64" : 1,
-										"blob" : "1689.VMjLg.oA...OVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9DSL3LiKtrFRMEDQt3hKtXmZD4hKtf0PU4hKlcTayk1X5M0aMIkKhI1MxPScnwDMzPVdHYELwEiLtDDUvg2XNIDZVUVXmImPzTiTVUCapECdyLyJ1.CQlEGVHQ0PPgmd2X2UrclKxYCd4PyU3QWVCoVavgUVYkUYrEyRPkSZtDGcAglKuMGLGMGYJA2LtoUMMElVhETLMI1QFMCb3PDaYEScgk0Z3TDb1cEL23lPOc0aGgDUVISLNEUQ0UUc3DVM4UTUiMmRhoVbxTjTxDUZCI0bEUGZtslTKIjT5YSRM4TMtMjTVsRdwgSSVMCYsE2T1MiXngyLvE2cVk0PkoEL2fUYyYGRrMSc0cDVWMmLwIGdwk2axEld3TiXYgFTTshdTkTaHgiPwXCR0ECVRMGTGcENMg2YZkVZ5cSLooTX5MSSqYkdlUjMHY0JogEd0E2X0IzbgY1cvDFUvYVRYMkbqnVNxfENuw1R0v1LuUjU3rlQqbULGkmV0P2bycUM4M0TrMGLNUTVQokTuMCLJszZ4wFcQ4TUynEbzXiM0bDR2fmcIgmM3f0U3j0TEkyaLUDSiQWMZMmRSczUBwzY3MmXlA2Y2vzZ1XWcTEFZNIVd1PSRCoGaWEURYglUkAibxsVaRISPtMSS4rRbsokUzcDbGUjRqLlRUM0RYczZrYDNxI2XLAmLXkldkImUzvTYJQ1PxbTYLsRarU2T4g2JUoWMHYjV5UDLuYVXkEiV0XyRMUjdhE2XgYFSNEUTgozT4QGZCU0RocSbmIUcmkkSTkUYlYico8DVGcjMRwTaOsRZw7VXkYGcHIlTuokRvrDMznza1MSRioTRAUiQzHiZrETdGcGbKciXNgzJGEiSYU2PUACdX4lSxwjQvIyUjITUYUSaIwzSQICRiITZqjjdEAiPTUFVsMjU5EiT5UTVrcjajIzUvTkT0EUX4TmMswjUYsBTvn0J2shLLMEYZcUYYc1SDY0XGQWMWIFdL8jXqAyJkUDTwQmRxbUNqDmUEYGbusBLk0VaAImKVkUSkMDVAImRgkiQ1IDVEIyMMY1QUEyPyb2Zw4hUvkCNnszPUM0S24xZxwVZXokY1HCd2zDYwgTctoUTkklKSQlM2ESLyfSZtjlcvkibtjULGoTQ4f2TNoTXuEldIgCLkkSNOUDS2nWcxPmU1PWZkY2UWsTMmkCcKQGS4zzUwTiM4YTQ3vVdFYyMmQCLMkCdVMkUVESaGQma3HiLXkkMksBZ0nEb0Elc3gmQ0IGNCYibxgySNUmSLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QzTLcGQSwzcDMES2QTdqHGarEDbGYzSyHFLWUCYjEWVCQWcSM2aGkyaVMDahoELG4jXT0jMJY0a3LCMxrFYzDyUKwDZIYENqYTYWMWayAyQyQlR3XjQvDCY4wlRooEZ3L2b3Hjbx.0SFAic4HTUXI1ROg0RSM0Ui4VVtIWZwDUNG8jR3nGY3wVYyECQiMyRtjESLMGUZEUTrwVM4wlR2fSdZoEbwACbLUDatLkahMDMIsFZWEmbWckcJUlVzDVZkMVNzw1XGc2Ju0zaMUVXCMzaqnzZUc0bWIFNwDGYugWdUkSRVQSNUUiK77RRC8Vav8lak4Fc9vSREQVZzMzatQmbuwFakImOv3BOujTQjkFcC8lazI2arwVYx4COuX0TTMCTrU2Yo41TzEFck4C."
+										"blob" : "586.VMjLgDj....OVMEUy.Ea0cVZtMEcgQWY9vSRC8Vav8lak4Fc9LSM23RdMACTtvjKt3hKPYUPt3hKnclKt3hYG0FLVkETO0DRLQkX2XyMu41as0zR1g0Y2cyLhA2cCoEanQmMUImSwEmdzQUMnIkUyXCcPMFQGAUVwgjKW4RNqn0JqjCLRU1SwDVPt3xLUIFaDsxbDQDRQIESDIVRXUFchQlZsMULvQjYKgzYRITamQTR1sjRBQmPQISUZMCMnsTTBQEUhUDL4kUUMMzTqrDT2kFb17FbY4xUDImbWYVSxzVbuMCRLMULYo1RuEGSGcjRPcVXtUyPgw1Js0zRUk2ZtbyLNQzZHMkS241RqUyUzkVRvvldv8VLQsBVREFVzcTZ5M0LXgWXYgUVJMUdzHFbQwDNNglQosxJhUjbAsxZuwzXCsVZLEVZZcCRGYyMKcUYskDY4wlSwjWbCQjREgULZQyQ37zZ4j1MUQUMLkGYvYCQk8zUxXkTzbVMFY2Pt41TiombDQVVKcjPgMWT2LFUzL0RAMELAIjbBsDZ4oza0fCdlwVLroGRWMUbNgmcg81MWEFc141Q1.ES5UFcNIGTZQiLvUVaEgEY3YEUxwlS1UycZAUXOwjbsQlb1f2aGEmQjMkLkgTcGgSRW4VXYomK5UUM4c0LBcFLIckbRMWNAYmL0QlR2wyKIMzasA2atUlaz4COIUDYoQ2Pu4Fcx8FarUlb9.iK77RREQVZzMzatQmbuwFakImO77hUSQ0LPwVcmklaSQWXzUlO.."
 									}
 ,
 									"fileref" : 									{
-										"name" : "RX 10 Repair Assistant",
-										"filename" : "RX 10 Repair Assistant.maxsnap",
+										"name" : "RX 10 De-crackle",
+										"filename" : "RX 10 De-crackle.maxsnap",
 										"filepath" : "~/Documents/Max 8/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "d2e8ff63dcf4fb0d775a53ade2f3ab25"
+										"snapshotfileid" : "bb94c90875524287197609823805be61"
 									}
 
 								}
@@ -867,7 +914,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 661.0, 157.0, 50.0, 22.0 ],
-					"text" : "402545"
+					"text" : "0"
 				}
 
 			}
@@ -1424,6 +1471,13 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
+					"destination" : [ "obj-2", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-109", 0 ],
 					"source" : [ "obj-108", 0 ]
 				}
@@ -1576,6 +1630,22 @@
 					"destination" : [ "obj-22", 0 ],
 					"order" : 0,
 					"source" : [ "obj-19", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-116", 0 ],
+					"order" : 1,
+					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-57", 0 ],
+					"order" : 0,
+					"source" : [ "obj-2", 0 ]
 				}
 
 			}
@@ -1750,14 +1820,24 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-57", 0 ],
-					"source" : [ "obj-56", 0 ]
+					"destination" : [ "obj-41", 1 ],
+					"order" : 0,
+					"source" : [ "obj-57", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-41", 0 ],
+					"order" : 1,
+					"source" : [ "obj-57", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-92", 0 ],
+					"order" : 2,
 					"source" : [ "obj-57", 0 ]
 				}
 
@@ -1994,6 +2074,7 @@
  ],
 		"parameters" : 		{
 			"obj-11" : [ "live.gain~", "live.gain~", 0 ],
+			"obj-2" : [ "live.gain~[2]", "live.gain~[2]", 0 ],
 			"obj-57" : [ "vst~", "vst~", 0 ],
 			"obj-92" : [ "live.gain~[1]", "live.gain~[1]", 0 ],
 			"parameterbanks" : 			{
@@ -2009,7 +2090,7 @@
 		}
 ,
 		"dependency_cache" : [ 			{
-				"name" : "RX 10 Repair Assistant.maxsnap",
+				"name" : "RX 10 De-crackle.maxsnap",
 				"bootpath" : "~/Documents/Max 8/Snapshots",
 				"patcherrelativepath" : "../../../../Documents/Max 8/Snapshots",
 				"type" : "mx@s",
