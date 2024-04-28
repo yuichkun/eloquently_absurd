@@ -18,7 +18,6 @@ var<uniform> uniforms: Uniforms;
 @fragment
 fn main(@location(0) tex_coords: vec2<f32>) -> FragmentOutput {
     // Calculate the 1D index from the 2D texture coordinates
-    // Assuming tex_coords are normalized (0.0 to 1.0)
     let index = u32(tex_coords.y * 500.0) * 500u + u32(tex_coords.x * 500.0);
 
     // Ensure the index does not go out of bounds
@@ -27,12 +26,19 @@ fn main(@location(0) tex_coords: vec2<f32>) -> FragmentOutput {
     // Get the sample value
     let sampleValue = audioData.samples[safeIndex];
 
-    // Map the sample value (-1.0 to 1.0) directly to a grayscale color
     // Normalize the sample value to (0.0 to 1.0) for color mapping
     let colorValue = (sampleValue + 1.0) * 0.5;
 
-   // Create the color vector
-    var color: vec3<f32> = vec3<f32>(colorValue, colorValue, colorValue);
+    // Adjust contrast
+    let contrastFactor: f32 = 2.2; // Example contrast factor, adjust as needed
+    let adjustedColorValue = (colorValue - 0.5) * contrastFactor + 0.5;
+
+    // Ensure the color value remains in the 0.0 to 1.0 range
+    let clampedColorValue = clamp(adjustedColorValue, 0.0, 1.0);
+
+    // Create the color vector
+    var color: vec3<f32> = vec3<f32>(clampedColorValue, clampedColorValue, clampedColorValue);
+
     // Return the color as the fragment output
     return FragmentOutput(vec4<f32>(color, 1.0));
 }
