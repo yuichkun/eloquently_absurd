@@ -6,7 +6,7 @@ a = [1, 2, 3, 4, 5]  # First sequence
 b = [2, 3, 4]        # Second sequence, a subset of the first
 
 # Compute cross-correlation
-correlation = np.correlate(a, b, mode='full')
+correlation = np.correlate(a, b, mode='valid')
 
 # Print the correlation result
 print("Cross-correlation:", correlation)
