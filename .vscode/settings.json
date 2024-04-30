@@ -20,6 +20,8 @@
     "Seedable",
     "sounddevice",
     "Unorm",
+    "unsqueeze",
+    "unsqueezed",
     "wgpu",
     "wgsl",
     "winit",
