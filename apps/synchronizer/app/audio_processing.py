@@ -37,6 +37,6 @@ def process_recent_audio():
         print(f"Adjusted alignment starts at: {formatted_time}, Compute time: {compute_time:.2f}s")
         send_osc_message("/playback/position", adjusted_time_offset_ms)
 
-        threading.Event().wait(1.0)
+        threading.Event().wait(2.0)
 
 

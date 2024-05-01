@@ -11,7 +11,7 @@ class SingletonMeta(type):
 class SharedResources(metaclass=SingletonMeta):
     def __init__(self):
         self.sample_rate = 44100
-        self.buffer_time = 5
+        self.buffer_time = 8
         self.buffer_length = self.sample_rate * self.buffer_time
         self.recent_audio_buffer = np.zeros(self.buffer_length, dtype=np.float32)
         self.buffer_lock = threading.Lock()
