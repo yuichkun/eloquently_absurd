@@ -2,7 +2,12 @@ import librosa
 import torch
 import numpy as np
 
-def load_audio_buffer(file_path, sr=48000):
+from shared_resources import SharedResources
+
+def load_audio_buffer(file_path, sr):
+    shared_resources = SharedResources()
+    if sr is None:
+        sr = shared_resources.sample_rate
     audio, _ = librosa.load(file_path, sr=sr, mono=True)
     return audio.astype(np.float32)
 

@@ -14,7 +14,7 @@ def audio_callback(indata, frames, time, status):
 
 def start_audio_stream():
     print("Starting audio stream...")
-    # TODO: sample rate should be configurable
-    stream = sd.InputStream(channels=1, samplerate=44100, callback=audio_callback)
+    shared_resources = SharedResources()
+    stream = sd.InputStream(channels=1, samplerate=shared_resources.sample_rate, callback=audio_callback)
     with stream:
         threading.Event().wait()
