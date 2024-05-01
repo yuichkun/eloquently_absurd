@@ -4,7 +4,7 @@ import numpy as np
 
 from shared_resources import SharedResources
 
-def load_audio_buffer(file_path, sr):
+def load_audio_buffer(file_path, sr=None):
     shared_resources = SharedResources()
     if sr is None:
         sr = shared_resources.sample_rate
