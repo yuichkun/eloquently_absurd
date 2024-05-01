@@ -7,6 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+numpy = "^1.26.4"
+scipy = "^1.13.0"
+librosa = "^0.10.1"
+sounddevice = "^0.4.6"
+torch = "^2.3.0"
 
 
 [build-system]
