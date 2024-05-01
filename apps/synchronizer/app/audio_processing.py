@@ -17,6 +17,7 @@ def process_recent_audio():
             buffer_copy = shared_resources.recent_audio_buffer.copy()
         correlation = cross_correlation_fft_torch(original, buffer_copy, device)
         max_corr_index = np.argmax(correlation)
+        max_corr_value = correlation[max_corr_index]
 
         end_compute_time = time.time()  # Capture the end time of the computation
         compute_time = end_compute_time - start_compute_time  # Calculate the compute time
@@ -33,9 +34,12 @@ def process_recent_audio():
         seconds = int(adjusted_time_offset_seconds % 60)
         formatted_time = f"{minutes:02d}:{seconds:02d}"
 
-        # Output or use the correlation result as needed
-        print(f"Adjusted alignment starts at: {formatted_time}, Compute time: {compute_time:.2f}s")
-        send_osc_message("/playback/position", adjusted_time_offset_ms)
+        if max_corr_value > 500:
+            # Output or use the correlation result as needed
+            print(f"Adjusted alignment starts at: {formatted_time}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
+            send_osc_message("/playback/position", adjusted_time_offset_ms)
+        else:
+            print(f"Skipped alignment at: {formatted_time}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
 
         threading.Event().wait(2.0)
 
