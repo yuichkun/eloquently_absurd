@@ -5,6 +5,7 @@
   },
   "cSpell.words": [
     "argmax",
+    "astype",
     "bytemuck",
     "DIMGRAY",
     "egui",
