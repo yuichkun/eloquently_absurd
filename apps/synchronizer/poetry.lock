@@ -851,6 +851,17 @@ files = [
 ]
 
 [[package]]
+name = "python-osc"
+version = "1.8.3"
+description = "Open Sound Control server and client implementations in pure Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "python-osc-1.8.3.tar.gz", hash = "sha256:a5ce1ba56c8d82df51cb3f2946b5dd33a70522791acc4b8564e62d2b20ad9caa"},
+    {file = "python_osc-1.8.3-py3-none-any.whl", hash = "sha256:6fa7e5cf7690057712c26e5f67a747126e6a5f481a40792aad0f25ac3edee815"},
+]
+
+[[package]]
 name = "requests"
 version = "2.31.0"
 description = "Python HTTP for Humans."
@@ -1190,4 +1201,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "bd18cb41eed5fcdaa52abbfe5f4a6c2c2e63c0f19a941ec281efcb7fc867b1d1"
+content-hash = "4c5c60136e130c31d81398d09942657bb553d3ff1efdae1f157317136e493f1c"

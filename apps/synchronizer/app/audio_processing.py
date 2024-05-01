@@ -4,6 +4,7 @@ import numpy as np
 import librosa
 from shared_resources import SharedResources
 from audio_utils import load_audio_buffer, cross_correlation_fft_torch
+from osc_sender import send_osc_message
 
 def process_recent_audio():
     shared_resources = SharedResources()
@@ -15,6 +16,7 @@ def process_recent_audio():
         with shared_resources.buffer_lock:
             buffer_copy = shared_resources.recent_audio_buffer.copy()
 
+        # TODO: sample rate should be configurable
         buffer_resampled = librosa.resample(buffer_copy, orig_sr=44100, target_sr=48000)
         correlation = cross_correlation_fft_torch(original, buffer_resampled, device)
         max_corr_index = np.argmax(correlation)
@@ -22,6 +24,7 @@ def process_recent_audio():
         end_compute_time = time.time()  # Capture the end time of the computation
         compute_time = end_compute_time - start_compute_time  # Calculate the compute time
 
+        # TODO: sample rate should be configurable
         # Calculate the time offset in seconds
         time_offset_seconds = max_corr_index / 48000  # Assuming the index corresponds directly to the sample offset
 
@@ -35,3 +38,4 @@ def process_recent_audio():
 
         # Output or use the correlation result as needed
         print(f"Adjusted alignment starts at: {formatted_time}, Compute time: {compute_time:.2f}s")
+        send_osc_message("/playback/position", adjusted_time_offset_seconds)
