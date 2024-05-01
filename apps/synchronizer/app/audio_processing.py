@@ -8,7 +8,7 @@ from osc_sender import send_osc_message
 
 def process_recent_audio():
     shared_resources = SharedResources()
-    original = load_audio_buffer('./003-b-rec.wav')
+    original = load_audio_buffer('./reference_master.wav')
     device = torch.device("mps")
 
     while True:
