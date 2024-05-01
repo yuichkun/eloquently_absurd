@@ -15,6 +15,6 @@ def audio_callback(indata, frames, time, status):
 def start_audio_stream():
     print("Starting audio stream...")
     shared_resources = SharedResources()
-    stream = sd.InputStream(channels=1, samplerate=shared_resources.sample_rate, callback=audio_callback)
+    stream = sd.InputStream(device="Universal Audio Thunderbolt",channels=1, samplerate=shared_resources.sample_rate, callback=audio_callback)
     with stream:
         threading.Event().wait()
