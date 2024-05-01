@@ -11,6 +11,7 @@
     "egui",
     "figsize",
     "fullscreen",
+    "ifft",
     "indata",
     "librosa",
     "msaa",
