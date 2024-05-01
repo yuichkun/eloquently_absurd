@@ -6,6 +6,6 @@ members = [
 ]
 
 exclude = [
-    "apps/syncronizer",
+    "apps/synchronizer",
     "prototypes/playback-position-detector",
 ]
