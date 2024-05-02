@@ -160,10 +160,6 @@ pub fn update(app: &App, model: &mut Model) {
     let scale_factor = app.main_window().scale_factor() as f32;
     model.shader_settings.uniforms.window_width = app.main_window().rect().w() * scale_factor;
     model.shader_settings.uniforms.window_height = app.main_window().rect().h() * scale_factor;
-    println!(
-        "width height: {} {}",
-        model.shader_settings.uniforms.window_width, model.shader_settings.uniforms.window_height
-    );
 
     // Create a command encoder
     let mut encoder =

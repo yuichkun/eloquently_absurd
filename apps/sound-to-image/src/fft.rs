@@ -1,4 +1,5 @@
 use super::Model;
+use chrono::prelude::*;
 use ringbuf::Rb;
 use rustfft::{num_complex::Complex, FftPlanner};
 
@@ -45,7 +46,11 @@ pub fn update(model: &mut Model) {
         &samples[..]
     };
     if detect_start_signal(samples_to_consider.to_vec()) {
-        println!("Start signal detected");
+        let now = Utc::now();
+        println!(
+            "\x1b[36m{}: \x1b[0mStart signal detected",
+            now.format("%Y/%m/%d %H:%M:%S")
+        );
         rb.clear();
     }
 }

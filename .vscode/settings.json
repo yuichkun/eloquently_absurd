@@ -7,6 +7,7 @@
     "argmax",
     "astype",
     "bytemuck",
+    "chrono",
     "colorlog",
     "DIMGRAY",
     "egui",
