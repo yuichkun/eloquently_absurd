@@ -5,6 +5,7 @@ import numpy as np
 from shared_resources import SharedResources
 from audio_utils import load_audio_buffer, cross_correlation_fft_torch
 from osc_sender import send_osc_message
+from logger import logger, color_text
 
 def process_recent_audio():
     shared_resources = SharedResources()
@@ -35,11 +36,10 @@ def process_recent_audio():
         formatted_time = f"{minutes:02d}:{seconds:02d}"
 
         if max_corr_value > 500:
-            # Output or use the correlation result as needed
-            print(f"Adjusted alignment starts at: {formatted_time}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
+            print(f"Adjusted alignment starts at: {color_text(formatted_time, 'yellow')}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
             send_osc_message("/playback/position", adjusted_time_offset_ms)
         else:
-            print(f"Skipped alignment at: {formatted_time}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
+            print(f"Skipped alignment at: {color_text(formatted_time, 'yellow')}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
 
         threading.Event().wait(1.0)
 
