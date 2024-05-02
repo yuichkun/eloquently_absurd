@@ -41,6 +41,6 @@ def process_recent_audio():
         else:
             print(f"Skipped alignment at: {formatted_time}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
 
-        threading.Event().wait(2.0)
+        threading.Event().wait(1.0)
 
 
