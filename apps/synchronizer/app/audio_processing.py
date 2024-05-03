@@ -40,6 +40,7 @@ def process_recent_audio():
             send_osc_message("/playback/position", adjusted_time_offset_ms)
         else:
             print(f"Skipped alignment at: {color_text(formatted_time, 'yellow')}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
+            send_osc_message("/playback/position", -1)
 
         threading.Event().wait(1.0)
 
