@@ -35,8 +35,8 @@ def process_recent_audio():
         seconds = int(adjusted_time_offset_seconds % 60)
         formatted_time = f"{minutes:02d}:{seconds:02d}"
 
-        if max_corr_value > 500:
-            print(f"Adjusted alignment starts at: {color_text(formatted_time, 'yellow')}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
+        if max_corr_value > 450:
+            print(f"Adjusted alignment starts at: {color_text(formatted_time, 'green')}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
             send_osc_message("/playback/position", adjusted_time_offset_ms)
         else:
             print(f"Skipped alignment at: {color_text(formatted_time, 'yellow')}, Correlation Value: {max_corr_value}, Compute time: {compute_time:.2f}s")
